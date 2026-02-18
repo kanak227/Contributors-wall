@@ -8,7 +8,7 @@ const allowedColors = {
 
 async function loadContributors() {
   try {
-    const response = await fetch("contributors.json");
+    const response = await fetch(`contributors.json?t=${new Date().getTime()}`);
     const files = await response.json();
 
     if (!files || !files.length) throw new Error("No JSON files found in contributors.json");
