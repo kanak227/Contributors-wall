@@ -1,0 +1,119 @@
+/* Black & Blue Gradient Theme */
+:root {
+  --bg-start: #000000;
+  --bg-end: #0a1628;
+  --surface: #0d1b2a;
+  --surface-2: #1b263b;
+  --text: #e8f4f8;
+  --muted: #7c9cbf;
+  --accent: #4a90e2;
+  --blue-glow: rgba(74, 144, 226, 0.15);
+  --ring: rgba(91, 164, 255, 0.12);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, sans-serif;
+  background: #000000;
+  min-height: 100vh;
+  color: var(--text);
+}
+
+/* Header */
+h1 {
+  font-size: 2.2rem;
+  line-height: 1.2;
+  margin: 32px 16px 8px;
+  letter-spacing: 0.3px;
+  text-align: center;
+  color: #ffffff;
+  font-weight: 700;
+}
+
+p {
+  margin: 0 16px 24px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 28px auto 56px;
+  padding: 0 16px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  position: relative;
+  background: var(--card-bg, rgba(255, 255, 255, 0.02));
+  padding: 20px 16px 18px;
+  border-radius: 14px;
+  border: 2px solid transparent; /* inline border-color from script.js will show */
+  box-shadow: 0 0 0 1px var(--card-color, rgba(255,255,255,0.1)), 
+              0 0 20px var(--card-glow, rgba(74, 144, 226, 0.2)),
+              0 8px 24px rgba(0, 0, 0, 0.5);
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  text-align: center;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 0 2px var(--card-color, var(--accent)),
+              0 0 40px var(--card-glow, rgba(74, 144, 226, 0.4)),
+              0 14px 36px rgba(0, 0, 0, 0.6);
+}
+
+.card img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.card:hover img {
+  filter: drop-shadow(0 0 12px var(--card-color, var(--accent)));
+}
+
+.card h3 {
+  margin: 14px 0 6px;
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  h1 { font-size: 1.8rem; }
+  .container { gap: 16px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .card { padding: 16px 14px; }
+  .card img { width: 96px; height: 96px; }
+}
