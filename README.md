@@ -12,60 +12,7 @@ A beautiful, interactive contributors wall built with vanilla JavaScript, HTML, 
 
 ## 🤝 How to Contribute
 
-We welcome contributions! Follow these steps to add your profile to the Contributors Wall:
-
-### Step 1: Fork the Repository
-
-Click the **Fork** button at the top right of this repository to create your own copy.
-
-### Step 2: Clone Your Fork
-
-```bash
-git clone https://github.com/YOUR-USERNAME/Contributors-wall.git
-cd Contributors-wall
-```
-
-### Step 3: Create Your Profile
-
-1. Navigate to the `contributors/` folder
-2. Create a new JSON file named `yourname.json` (use your actual name or username)
-3. Use this template:
-
-```json
-{
-  "name": "Your Full Name",
-  "username": "your-github-username",
-  "domain": "Your Domain/Interest (e.g., Web Development, AI/ML, etc.)",
-  "color": "blue"
-}
-```
-
-**Available colors:** `red`, `blue`, `green`, `purple`, `orange`
-
-### Step 4: Commit Your Changes
-
-```bash
-git add contributors/yourname.json
-git commit -m "Add [Your Name] to contributors wall"
-```
-
-### Step 5: Push to Your Fork
-
-```bash
-git push origin main
-```
-
-### Step 6: Create a Pull Request
-
-1. Go to your forked repository on GitHub
-2. Click **"Compare & pull request"**
-3. Add a title: `Add [Your Name] to Contributors Wall`
-4. Add a description explaining your contribution
-5. Click **"Create pull request"**
-
-### Step 7: Wait for Review
-
-Your PR will be reviewed and merged. Once merged, your profile will appear on the Contributors Wall! 🎉
+We welcome contributions! To add your profile to the Contributors Wall, please see our [Contribution Guide](CONTRIBUTING.md) for step-by-step instructions.
 
 ## 📋 Example Profile
 
@@ -90,12 +37,15 @@ Check out `contributors/sample.json` for a complete example:
 
 ```
 Contributors-wall/
+├── .github/            # GitHub Actions workflows
 ├── index.html          # Main HTML file
 ├── style.css           # All styling and animations
 ├── script.js           # JavaScript for loading contributors
+├── contributors.json   # Auto-generated manifest (DO NOT EDIT MANUALLY)
 ├── contributors/       # Contributor profile JSON files
 │   ├── sample.json
 │   └── [your-profile].json
+├── CONTRIBUTING.md     # Contribution guide
 └── README.md           # This file
 ```
 

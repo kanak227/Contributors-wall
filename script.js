@@ -8,24 +8,10 @@ const allowedColors = {
 
 async function loadContributors() {
   try {
-    const response = await fetch("contributors/");
-    const text = await response.text();
+    const response = await fetch("contributors.json");
+    const files = await response.json();
 
-    const parser = new DOMParser();
-    const htmlDoc = parser.parseFromString(text, "text/html");
-
-    const files = [...htmlDoc.querySelectorAll("a")]
-      .map(link => link.getAttribute("href") || "")
-      .filter(href => href.toLowerCase().includes(".json"))
-      .map(href => {
-        const parts = href.split("/");
-        const last = parts[parts.length - 1];
-        return last.trim();
-      })
-      .filter(name => name.endsWith(".json"))
-      .filter(name => name !== "sample.json");
-
-    if (!files.length) throw new Error("No JSON files discovered in directory listing.");
+    if (!files || !files.length) throw new Error("No JSON files found in contributors.json");
 
     for (let file of files) {
       const res = await fetch("contributors/" + file);
@@ -49,13 +35,11 @@ async function loadContributors() {
       document.getElementById("contributors").insertAdjacentHTML("beforeend", card);
     }
 
-    // Apply dynamic hover colors based on each card's border color
     document.querySelectorAll(".card").forEach(card => {
       const color = card.getAttribute("data-color");
       if (color) {
         card.style.setProperty("--card-color", color);
-        
-        // Convert hex to rgba for glow effect
+
         const hex = color.replace("#", "");
         const r = parseInt(hex.substr(0, 2), 16);
         const g = parseInt(hex.substr(2, 2), 16);
@@ -65,9 +49,9 @@ async function loadContributors() {
       }
     });
   } catch (err) {
-    console.error("Failed to load via directory listing:", err);
+    console.error("Failed to load contributors:", err);
     const msg = document.createElement("p");
-    msg.textContent = "Profiles couldn’t be discovered. Serve the site with a simple HTTP server that lists directories (e.g., python -m http.server).";
+    msg.textContent = "Unable to load profiles. Please ensure the contributors list is generated.";
     document.getElementById("contributors").appendChild(msg);
   }
 }
