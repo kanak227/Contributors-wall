@@ -14,25 +14,31 @@ async function loadContributors() {
     if (!files || !files.length) throw new Error("No JSON files found in contributors.json");
 
     for (let file of files) {
-      const res = await fetch("contributors/" + file);
-      const data = await res.json();
+      try {
+        const res = await fetch("contributors/" + file);
+        if (!res.ok) throw new Error(`Could not fetch ${file}`);
+        const data = await res.json();
 
-      const borderColor = allowedColors[data.color] || "#ffffff";
-      const username = (data.username || "").trim();
-      const avatarUrl = username
-        ? `https://avatars.githubusercontent.com/${username}?s=120`
-        : `https://avatars.githubusercontent.com/u/0?s=120`;
+        const borderColor = allowedColors[data.color] || "#ffffff";
+        const username = (data.username || "").trim();
+        const avatarUrl = username
+          ? `https://avatars.githubusercontent.com/${username}?s=120`
+          : `https://avatars.githubusercontent.com/u/0?s=120`;
 
-      const card = `
-        <div class="card" data-color="${borderColor}">
-          <img src="${avatarUrl}" alt="${data.name || username}'s avatar"
-               style="border: 4px solid ${borderColor};">
-          <h3>${data.name || username || "Unknown"}</h3>
-          <p>Domain: ${data.domain || "N/A"}</p>
-        </div>
-      `;
+        const card = `
+          <div class="card" data-color="${borderColor}">
+            <img src="${avatarUrl}" alt="${data.name || username}'s avatar"
+                 style="border: 4px solid ${borderColor};">
+            <h3>${data.name || username || "Unknown"}</h3>
+            <p>Domain: ${data.domain || "N/A"}</p>
+          </div>
+        `;
 
-      document.getElementById("contributors").insertAdjacentHTML("beforeend", card);
+        document.getElementById("contributors").insertAdjacentHTML("beforeend", card);
+      } catch (innerErr) {
+        console.warn(`Failed to load individual contributor ${file}:`, innerErr);
+        // Continue to next contributor instead of breaking
+      }
     }
 
     document.querySelectorAll(".card").forEach(card => {
@@ -48,11 +54,14 @@ async function loadContributors() {
         card.style.setProperty("--card-bg", `rgba(${r}, ${g}, ${b}, 0.05)`);
       }
     });
+
+    if (document.querySelectorAll(".card").length === 0) {
+      throw new Error("No valid profiles could be loaded.");
+    }
+
   } catch (err) {
     console.error("Failed to load contributors:", err);
-    const msg = document.createElement("p");
-    msg.textContent = "Unable to load profiles. Please ensure the contributors list is generated.";
-    document.getElementById("contributors").appendChild(msg);
+    document.getElementById("contributors").innerHTML = `<p>Unable to load profiles. Please ensure the contributors list is generated.</p>`;
   }
 }
 
