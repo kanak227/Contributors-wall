@@ -26,7 +26,7 @@ async function loadContributors() {
         }
         const data = await res.json();
 
-        const borderColor = allowedColors[data.color] || "#ffffff";
+        const borderColor = allowedColors[data.color.toLowerCase()] || "#ffffff";
         const username = (data.username || "").trim();
         const avatarUrl = username
           ? `https://avatars.githubusercontent.com/${username}?s=120`
